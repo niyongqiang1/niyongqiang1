@@ -1,0 +1,18 @@
+安装ros
+https://blog.csdn.net/u013453604/article/details/49386953
+https://www.jianshu.com/p/e6ea653147cb
+
+ubuntu18.04 sudo: rosdep：找不到命令
+sudo apt-get install python-rosdep/sudo apt-get install python-rosdep2
+
+roscore出不来
+https://blog.csdn.net/tom17/article/details/107748686
+
+
+控制多只小乌龟：$ rosrun [package_name] [node_name]
+roscore
+rosrun turtlesim turtlesim_node
+rosrun turtlesim turtlesim_node __name:=my_turtle
+rosrun turtlesim turtlesim_node __name:=my_turtle2
+rosrun turtlesim turtlesim_node __name:=my_turtle3
+rosrun turtlesim turtle_teleop_key(控制)

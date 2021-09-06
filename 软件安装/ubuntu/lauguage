@@ -1,0 +1,18 @@
+16.04安装ibus输入法
+https://www.cnblogs.com/lightmare/p/10398804.html
+https://blog.csdn.net/qianxuedegushi/article/details/103830782
+
+ubuntu 16.04 安装中文语言包
+https://www.cnblogs.com/mingjing/p/9268888.html
+安装中文语言包
+sudo apt-get install  language-pack-zh-han*
+安装gnome包
+sudo apt-get install   language-pack-gnome-zh-han*
+安装kde包
+sudo apt-get install   language-pack-kde-zh-han*
+到这里就能够查看目录下面的中文字符了。
+最后运行语言支持检查
+sudo apt install $(check-language-support)
+会更新最新的语言支持包
+
+

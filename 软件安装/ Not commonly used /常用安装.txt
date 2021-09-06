@@ -1,0 +1,7 @@
+ubuntu 安装python和awscli
+https://blog.csdn.net/weixin_30779691/article/details/97268473
+
+
+conda：未找到命令的解决方法
+https://blog.csdn.net/u010883226/article/details/85232482
+

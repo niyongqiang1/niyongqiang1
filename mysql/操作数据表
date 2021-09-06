@@ -1,0 +1,193 @@
+增删改查
+INSERT INTO `student`(`id`, `name`, `grade`) VALUES (null,'张三','男')
+DELETE FROM `student` WHERE id = 2
+UPDATE `student` SET `name`='张三','grade'='男' WHERE id =2
+SELECT * FROM `student` WHERE id = 2
+
+①增
+
+自增
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+1、将该自增主键设置为null
+
+    insert into user values(null,'root','123');
+
+2、将该自增主键设置为0
+
+     insert into user values(0,'root','123');
+
+3、插入时提前声明属性列
+
+    insert into user(username,password) values('root','123'); 
+②删
+ 删除表
+DROP TABLE `student`;
+ 删除表中全部数据	
+DELETE FROM `student`;
+ 删除表中id=2的数据
+DELETE FROM `student` WHERE id=2;
+③改：
+一条语句如何修改同一列的多个值，例如想把张三，李四改成王二，麻子
+UPDATE student SET name = CASE name WHEN '张三' THEN '王二' WHEN '李四' THEN '麻子' END WHERE name IN('张三', '李四')
+
+④查
+
+结果以id排序并逗号分开
+SELECT id,name,hobby,GROUP_CONCAT(grade) FROM student GROUP BY id
+SELECT id,name,hobby,grade FROM student GROUP BY id
+——————————————————————————————————————————————————————————————————————————————————
+添加和删除唯一索引、主键
+1、PRIMARY KEY（主键索引）
+
+添加 ALTER TABLE `table_name` ADD PRIMARY KEY ( `column` );
+删除 ALTER TABLE `table_name` DROP PRIMARY KEY;
+2、UNIQUE(唯一索引)
+
+添加 ALTER TABLE `table_name` ADD UNIQUE ( `column` );
+删除 ALTER TABLE `table_name` DROP INDEX `column`;
+——————————————————————————————————————————————————————————————————————————————————
+版权声明：本文为CSDN博主「daxuewei」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/u012755940/article/details/78276653
+
+https://www.cnblogs.com/heyangblog/p/7624591.html
+
+ MySQL之最基本命令
+
+前言：以下是数据库最基础最常用的命令，特别适用初学者练习，希望通过不断练习这些命令来熟练操作、巩固基础，因为只有不断地练习才能将知识真正变成自己的东西。
+
+快速查看以下内容：
+操作 	命令
+创建数据库 	CREATE DATABASE 数据库名；
+指定要操作的数据库 	USE 数据库名；
+创建数据表 	CREATE TABLE 数据表名；
+查看数据表 	SHOW CREATE TABLE 数据表名；
+使用DESCRIBE语句查看数据表 	DESCRIBE 数据表名；
+为数据表重命名 	ALTER TABLE 数据表名 RENAME 新表名；
+修改字段名 	ALTER TABLE 数据表名 CHANGE 旧字段名 新字段名 新数据类型；
+修改字段数据类型 	ALTER TABLE 数据表名 MODIFY 字段名 数据类型；
+添加字段 	ALTER TABLE 数据表名 ADD 字段名 数据类型；
+删除字段 	ALTER TABLE 表名 DROP 字段名；
+修改字段的排列位置 	ALTER TABLE 数据表名 MODIFY 字段名1 数据类型 FIRST | AFTER 字段名2
+删除数据表 	DROP TABLE 数据表名；
+
+ 
+
+1、创建数据库
+
+命令：CREATE DATABASE 数据库名；
+
+举例：CREATE DATABASE student；
+
+2、指定要操作的数据库
+
+命令：USE 数据库名；
+
+举例：USE student；
+
+3、创建数据表（前提是已经指定了需要操作的数据库，命令参考上一条）
+
+命令：CREATE TABLE 数据表名
+
+　　（
+
+　　　　字段名1  数据类型[完整性约束条件]，
+
+　　　　字段名2  数据类型[完整性约束条件]，
+
+　　　　…
+
+　　　　字段名2  数据类型[完整性约束条件]
+
+　　）;
+
+举例：CREATE TABLE grade
+
+　　　(
+
+　　　　id   INT(11),
+
+　　　　name   VARCHAR(20),
+
+　　　　grade   FLOAT
+
+          );
+
+为了验证数据表是否创建成功，需要使用SHOW TABLES语句进行查看：SHOW TABLES
+
+结果如下(我使用的是phpMyAdmin）：
+
+4、查看数据表
+
+命令：SHOW CREATE TABLE 数据表名；
+
+举例：SHOW CREATE TABLE grade；
+
+执行结果如下：
+
+ 
+
+5、使用DESCRIBE语句查看数据表
+
+命令：DESCRIBE 数据表名；或者DESC 数据表名；
+
+举例：DESC grade；
+
+执行结果如下：
+
+6、为数据表重命名
+
+命令：ALTER TABLE 数据表名 RENAME [TO] 新表名；
+
+注意：命令中出现的[ ]中的内容表示选择性条件，不是必需；
+
+举例：ALTER TABLE grade RENAME newgrade；
+
+7、修改字段名
+
+命令：ALTER TABLE 数据表名 CHANGE 旧字段名 新字段名 新数据类型
+
+注意：新数据类型不能为空，即使不改变数据类型也要写上原来的数据类型
+
+举例：ALTER TABLE grade CHANGE name newname varchar(20);（把grade表中的name字段改为newname，数据类型不变）
+
+8、修改字段数据类型
+
+命令：ALTER TABLE 数据表名 MODIFY 字段名 数据类型；
+
+举例：ALTER TABLE grade MODIFY id INT(20);（将字段名id的数据类型改为INT(20)）
+
+9、添加字段
+
+命令：ALTER TABLE 数据表名 ADD 新字段名 数据类型 [约束条件] [FIRST | AFTER 已存在的字段名]；
+
+注意：“|”表示或者，其两边的参数是可供挑选的，此处的FIRST表示将字段设置为表的第一个字段，AFTER 表示将新字段插入到指定的“已存在的字段名”的后面
+
+举例：ALTER TABLE grade ADD age INT(10);
+改成主键
+ALTER TABLE `employee` ADD PRIMARY KEY(`id`);
+
+10、删除字段
+
+命令：ALTER TABLE 表名 DROP 字段名；
+
+举例：ALTER TABLE grade DROP grade；
+
+11、修改字段排列位置
+
+命令：ALTER TABLE 表名 MODIFY 字段名1 数据类型 FIRST | AFTER 字段名2
+
+举例1：ALTER TABLE grade MODIFY newname VARCHAR(20) FIRST;（将字段newname插入到表的第一个位置）
+
+举例2：ALTER TABLE grade MODIFY id INT(11) AFTER grade;（将字段id插入到字段grade的后面）
+
+12、删除数据表
+
+命令：DROP TABLE 数据表名；
+
+举例：DROP TABLE grade；
+哪怕是咸鱼，也要做最咸的那条

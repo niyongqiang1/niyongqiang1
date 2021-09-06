@@ -1,0 +1,35 @@
+Git 全局设置
+git config --global user.name "niyongqiang"
+git config --global user.email "xiao1012451454@163.com"
+
+创建一个新的存储库
+git clone git@gitlab.com:niyongqiang/bf.git
+cd bf
+git switch -c main
+触摸 README.md
+git 添加 README.md
+git commit -m "添加自述文件"
+git push -u origin main
+
+推送现有文件夹
+cd existing_folder
+git init --initial-branch=main
+git remote add origin git@gitlab.com:niyongqiang/bf.git
+git 添加。
+git commit -m "初始提交"
+git push -u origin main
+
+推送现有的 Git 存储库
+cd existing_repo
+git remote rename origin old-origin
+git remote add origin git@gitlab.com:niyongqiang/bf.git 
+git push -u origin --all
+git push -u origin --tags
+删除本地已合并的分支： git branch -d [branchname] 某些情况下可以用 git branch -D [branchName] (使用时应注意是否已合并)
+删除远程分支: git push origin --delete [branchname]
+在从公用的仓库fetch代码：git fetch origin dev20181018:dev20181018
+然后切换分支即可：git checkout dev20181018
+本地分支push到远程服务器，远程分支与本地分支同名（当然可以随意起名）：
+git push origin dev:dev
+设置上游分支
+

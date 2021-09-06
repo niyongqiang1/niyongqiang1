@@ -1,0 +1,83 @@
+ Windows安装OpenSSH
+转至元数据结尾
+
+    
+
+转至元数据起始
+
+OpenSSH 是一款用于远程登录的连接工具，它使用 SSH 协议。 它会加密客户端与服务器之间的所有流量，从而遏止窃听、连接劫持和其他攻击。
+
+OpenSSH 可用于将 Window 10 客户端连接到 Windows Server 2019。 OpenSSH 客户端可安装到 Windows 10 版本 1809 及更高版本上，而 OpenSSH 服务器可安装在 Windows Server 2019 及更高版本上。
+
+
+使用 Windows 设置来安装 OpenSSH
+
+这两个 OpenSSH 组件都可使用 Windows 设置进行安装。 OpenSSH 服务器安装在 Windows Server 上，OpenSSH 客户端安装在 Windows 10 设备上。
+
+若要安装 OpenSSH 组件：
+
+    打开“设置”，选择“应用”>“应用和功能”，然后选择“可选功能” 。
+
+    扫描列表，查看是否已安装 OpenSSH。 如果未安装，请在页面顶部选择“添加功能”，然后：
+        在 Windows 10 上，查找“OpenSSH 客户端”，再单击“安装”
+        在 Windows Server 2019 上，查找“OpenSSH 服务器”，再单击“安装”
+
+设置完成后，回到“应用”>“应用和功能”和“可选功能”，你应会看到已列出 OpenSSH 。
+
+注意：安装 OpenSSH 服务器将创建并启用一个名为 OpenSSH-Server-In-TCP 的防火墙规则。 这允许端口 22 上的入站 SSH 流量。 如果未启用此规则且未打开此端口，那么连接将被拒绝或重置。
+
+
+使用 PowerShell 安装 OpenSSH
+
+若要使用 PowerShell 安装 OpenSSH，请先以管理员身份运行 PowerShell。 为了确保 OpenSSH 可用，请运行以下 cmdlet：
+
+PowerShell
+
+Get-WindowsCapability -Online | ? Name -like 'OpenSSH*'
+
+这应会返回以下输出：
+
+Name  : OpenSSH.Client~~~~0.0.1.0
+State : NotPresent
+
+Name  : OpenSSH.Server~~~~0.0.1.0
+State : NotPresent
+
+然后，根据需要安装服务器或客户端组件：
+
+PowerShell
+
+# Install the OpenSSH Client
+
+Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
+
+# Install the OpenSSH Server
+
+Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+
+这两者应该都会返回以下输出：
+
+Path          :
+Online        : True
+RestartNeeded : False
+
+启动并配置 OpenSSH 服务器
+
+若要启动并配置 OpenSSH 服务器来开启使用，请以管理员身份打开 PowerShell，然后运行以下命令来启动 SSHD service：
+
+PowerShell
+
+# Start the sshd service
+Start-Service sshd
+
+# OPTIONAL but recommended:
+Set-Service -Name sshd -StartupType 'Automatic'
+
+# Confirm the firewall rule is configured. It should be created automatically by setup.
+Get-NetFirewallRule -Name *ssh*
+
+# There should be a firewall rule named "OpenSSH-Server-In-TCP", which should be enabled
+# If the firewall does not exist, create one
+New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+
+

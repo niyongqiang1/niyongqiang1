@@ -1,0 +1,45 @@
+ ROS环境安装
+转至元数据结尾
+
+    
+
+转至元数据起始
+0. ROS 版本与平台要求
+
+PC系统为Ubuntu 16.04 LTS版本，要求未安装过ROS，防⽌安装不当出现⾃研软件编译时⽆法找到依赖项的问题。ROS版本为与系统匹配的Kinetic。
+
+
+1. 环境设置
+
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" >/etc/apt/sources.list.d/ros-latest.list'
+
+sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+
+sudo apt-get update
+2. 安装
+
+sudo apt-get install ros-kinetic-desktop-full
+
+sudo apt install python-rosdep2(下一步报错可再执行这一步)
+
+sudo rosdep init
+
+
+rosdep update
+3. 环境变量设置
+
+echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+
+
+source ~/.bashrc
+sudo apt-get install ros-kinetic-turtlesim( 上二步报错报错可再执行这一步)
+
+4.安装编译依赖项
+
+sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential
+5.检查测试
+
+roscore
+
+sudo apt install python-catkin-pkg
+下面操作catkin方式创建ROS工作空间等看《ROS入门教程》

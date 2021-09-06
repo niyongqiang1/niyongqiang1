@@ -1,0 +1,71 @@
+ Docker及相关组件安装
+Linux
+
+请确认自己的发行版是 Ubuntu. 好吧, 不是的话也行
+
+请确认自己的电脑是x86_64架构的, 不是的话换一台电脑吧
+
+打开终端界面复制粘贴以下内容并回车
+
+uname -p
+
+显示x86_64才行
+Ubuntu用户Docker安装说明 (其他用户请出门右转参考 https://mirrors.tuna.tsinghua.edu.cn/help/docker-ce/)
+
+以下每个步骤都别忘了在结尾敲回车, 谢谢
+
+    如果你过去安装过 docker，先删掉:
+
+    sudo apt-get remove docker docker-engine docker.io
+
+    首先安装依赖:
+
+    sudo apt-get install apt-transport-https ca-certificates curl gnupg2 software-properties-common
+
+    信任 Docker 的 GPG 公钥:
+
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+    添加软件仓库:
+
+    sudo add-apt-repository \
+     "deb [arch=amd64] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu \
+     $(lsb_release -cs) \
+     stable"
+
+    最后:
+
+    sudo apt-get update
+    sudo apt-get install docker-ce
+
+Windows
+Docker安装
+
+请确认自己的电脑是专业版或者企业版的, 不是的话换一台电脑, 盗版什么的我们从来不用
+
+参考 https://hub.docker.com/editions/community/docker-ce-desktop-windows
+XServer安装 (用于Docker内程序显示图形界面) <span id='install-xserver-win'></span>
+
+    CygwinX 公网下载
+        配置安装程序：启动setup, 从网络安装，...，在选择下载站点界面Add User URL http://mirrors.tuna.tsinghua.edu.cn/cygwin/ 并于列表内点选确认
+        安装X11：软件列表中至少勾选如下软件包
+
+        xorg-server
+        xinit
+        xorg-x11-fonts-dpi100
+        xorg-x11-fonts-dpi75
+
+        配置X11: 安装完成后，启动 Cygwin终端 用于配置 —— 点击任务栏一端的Windows图标 -> 输入cygw可找到启动项
+        以下内容复制粘贴至Cygwin终端内，回车确认
+
+        sed -i 's/^\s*enable_xauth\s*=.*$/enable_xauth=0/' /usr/bin/startxwin
+        echo '#!/bin/sh
+        exec /usr/bin/XWin $@ -listen tcp +iglx -nowgl -ac' > ~/.xserverrc
+
+Mac
+
+请确认自己的MacOS 10.12以上, 不是的话换一台
+
+参考 https://hub.docker.com/editions/community/docker-ce-desktop-mac
+
+<style type="text/css"> code { padding: 0.3em; margin: 0.6em background-color: #f5f5f5; border: 1px solid #ccc; border-radius: 4px; } </style>
